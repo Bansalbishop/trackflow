@@ -6,7 +6,7 @@ function LandingNavbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex justify-between relative items-center px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 backdrop-blur-xl font-medium  ">
+    <div className="flex justify-between relative items-center px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 bg-white/85 backdrop-blur-xl font-medium  ">
       <p className="text-black text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-serif  font-bold py-4">
         TaskFLow
       </p>

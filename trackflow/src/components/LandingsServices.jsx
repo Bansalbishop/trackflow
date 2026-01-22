@@ -33,7 +33,7 @@ function LandingsServices() {
   return (
     <div
       id="services"
-      className="relative flex flex-col items-center gap-7 scroll-smooth scroll-mt-24 px-4 sm:px-12 lg:px-24 xl:px-40 pt-30 text-gray-700"
+      className="relative flex flex-col items-center gap-7 scroll-smooth  px-4 sm:px-12 lg:px-24 xl:px-40 pt-30 text-gray-700"
     >
       <img
         src={assets.bgImage2}
