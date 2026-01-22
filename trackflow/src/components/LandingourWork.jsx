@@ -27,7 +27,7 @@ const LandingourWork = () => {
       className="flex flex-col items-center gap-7 px-4 sm:px-12 scroll-mt-30 lg:px-24 xl:px-40 text-gray-700 mt-20"
     >
       <LandingserviceTitle
-        title="Our Services"
+        title="Our Working"
         desc="We provide a range of services to help you manage your tasks efficiently."
       />
       <div className="grid mt-10 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
