@@ -9,6 +9,10 @@ import zoom_logo from "./zoom_logo.png";
 
 import rakuten_logo from "./rakuten_logo.png";
 import coinbase_logo from "./coinbase_logo.png";
+import task_logo from "./task_logo.png";
+import task_done_logo from "./task_done_logo.png";
+import project_logo from "./project_logo.png";
+import project_done_logo from "./project-done-logo.png";
 import ads_icon from "./ads_icon.svg";
 import content_icon from "./content_icon.svg";
 import marketing_icon from "./marketing_icon.svg";
@@ -21,6 +25,7 @@ import work_dashboard_management from "./work_dashboard_management.png";
 import email_icon from "./email_icon.svg";
 import person_icon from "./person_icon.svg";
 import facebook_icon from "./facebook_icon.svg";
+import dashboard_icon from "./dashboard_logo.webp";
 import twitter_icon from "./twitter_icon.svg";
 import instagram_icon from "./instagram_icon.svg";
 import linkedin_icon from "./linkedin_icon.svg";
@@ -36,12 +41,17 @@ export const company_logos = [
   zoom_logo,
   rakuten_logo,
   coinbase_logo,
+
   airbnb_logo,
   google_logo,
 ];
 
 const assets = {
   logo,
+  task_logo,
+  task_done_logo,
+  project_logo,
+  project_done_logo,
 
   arrow_icon,
   group_profile,
@@ -51,6 +61,7 @@ const assets = {
   ads_icon,
   content_icon,
   marketing_icon,
+  dashboard_icon,
   social_icon,
   menu_icon,
   close_icon,
