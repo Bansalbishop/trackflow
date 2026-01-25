@@ -20,7 +20,8 @@ const Dashlist = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex justify-center gap-4 my-2 mb-10">
+      <div>
+        <div className="flex justify-center gap-4 my-2 mb-1">
         <button
           onClick={() => setActiveTab("task")}
           className={`border-2 px-4 py-1 rounded-full transition-all ${
@@ -42,6 +43,24 @@ const Dashlist = () => {
         >
           Projects
         </button>
+      </div>
+      <div className="flex justify-evenly mb-9 mt-1">
+        
+        <div className="flex gap-1 items-center"><button
+            className="bg-white-500 border-2 border-black-500 p-2 rounded-lg"
+          ></button><p>Pending</p></div>
+
+          
+        <div className="flex gap-1 items-center"><button
+            className="bg-yellow-500 border-2 border-yellow-500 p-2 rounded-lg"
+          ></button><p>Ongoing</p></div>
+
+          
+        <div className="flex gap-1 items-center"><button
+            className="bg-green-500 border-2 border-green-500 p-2 rounded-lg"
+          ></button><p>Done</p></div>
+      
+      </div>
       </div>
 
       {/* List */}
