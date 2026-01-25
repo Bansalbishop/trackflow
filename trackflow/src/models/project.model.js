@@ -1,11 +1,13 @@
 import assets from "../assets/assets";
 
-export const createProject = ({ name }) => {
+export const createProject = ({ title, duedate, description }) => {
   return {
     id: Date.now(),
-    name,
+    title,
+    description,
+    duedate,
     image: assets.project_logo,
-    status: "not started", // ongoing | completed
+    status: "stopped", // ongoing | completed
     createdAt: new Date().toISOString(),
   };
 };
