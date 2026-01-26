@@ -14,7 +14,7 @@ const MylistCard = ({ task, trueState, onToggle }) => {
         <h5 className=" text-sm truncate text-gray-400">{description}</h5>
       </div>
 
-      <div>
+      <div className="flex flex-col gap-5 items-end">
         {trueState === "task" ? (
           <button
             className={`bg-blue-500 cursor-pointer ${isdone ? "bg-green-500 border-2 border-green-500" : "bg-white border-2 border-black"} 

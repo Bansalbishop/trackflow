@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import assets from "../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const DashNavbar = () => {
+const DashNavbar = ({ activeFilter, setActiveFilter, setSearch }) => {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
       <div className="flex justify-evenly relative items-center text-black border-b-2 bg-black border-gray-200 px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 bg-white/85 backdrop-blur-xl font-medium   ">
-        <p className="text-black text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-serif  font-bold py-4 px-6">
+        <p
+          onClick={() => navigate("/")}
+          className=" cursor-pointer text-black text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-serif  font-bold py-4 px-6"
+        >
           TaskFLow
         </p>
         <div className="flex gap-4 items-center ">
@@ -16,23 +20,39 @@ const DashNavbar = () => {
             type="text"
             className="border-2 border-gray-300 md:w-60 lg:w-100 xl:w-120 rounded-full px-4 py-2 "
             placeholder="Search here"
+            onChange={(e) => setSearch(e.target.value)}
           ></input>
 
           <div className="hidden md:grid grid-cols-2">
-            <button className="border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2">
+            <button
+              onClick={() => setActiveFilter("t")}
+              className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "t" ? "bg-blue-500 text-white" : ""}`}
+            >
               T
             </button>
-            <button className="border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2">
+            <button
+              onClick={() => setActiveFilter("w")}
+              className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "w" ? "bg-blue-500 text-white" : ""}`}
+            >
               W
             </button>
-            <button className="border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2">
+            <button
+              onClick={() => setActiveFilter("m")}
+              className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "m" ? "bg-blue-500 text-white" : ""}`}
+            >
               M
+            </button>
+            <button
+              onClick={() => setActiveFilter("a")}
+              className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "a" ? "bg-blue-500 text-white" : ""}`}
+            >
+              A
             </button>
           </div>
 
           <div className="hidden md:flex gap-4  items-center ">
             <Link
-              to="/signup"
+              to="/dashboard"
               className=" text-gray-700 text-sm max-sm:hidden flex items-center cursor-pointer hover:scale-103 transition-all"
             >
               Dashboard

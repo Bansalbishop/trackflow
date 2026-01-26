@@ -54,7 +54,7 @@ function LandingNavbar() {
           onClick={() => setSidebarOpen(true)}
         ></img>
         <Link
-          to="/signup"
+          to="/dashboard"
           className="bg-black text-white text-sm max-sm:hidden flex items-center gap-2 px-6 py-2 rounded-full cursor-pointer hover:scale-103 transition-all"
         >
           Get Started
