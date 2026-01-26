@@ -20,6 +20,11 @@ import social_icon from "./social_icon.svg";
 import menu_icon from "./menu_icon.svg";
 import close_icon from "./close_icon.svg";
 import work_mobile_app from "./work_mobile_app.png";
+import listview from "./listview.png";
+import donelogo from "./donelogo.png";
+import deletelogo from "./deletelogo.png";
+import noteicon from "./noteicon.png";
+import gridview from "./gridview.png";
 import plus_icon from "./plus_icon.png";
 import work_fitness_app from "./work_fitness_app.png";
 import work_dashboard_management from "./work_dashboard_management.png";
@@ -50,8 +55,13 @@ export const company_logos = [
 const assets = {
   logo,
   task_logo,
+  donelogo,
+  deletelogo,
+  noteicon,
   task_done_logo,
   project_logo,
+  listview,
+  gridview,
   plus_icon,
   project_done_logo,
 

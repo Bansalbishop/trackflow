@@ -4,7 +4,8 @@ import MylistCard from "./MylistCard";
 import { useDashboard } from "../contexts/Dashboard.context";
 
 const Dashlist = ({ onAddClick, activeFilter, search }) => {
-  const { tasks, projects, toggleTask, changeProject } = useDashboard();
+  const { tasks, projects, toggleTask, changeProject} =
+    useDashboard();
   const [activeTab, setActiveTab] = useState("task");
 
   const isToday = (date) => {
@@ -122,16 +123,13 @@ const Dashlist = ({ onAddClick, activeFilter, search }) => {
               .filter(filterbySearch)
               .filter(filterByDate)
               .sort((a, b) => {
-            
                 if (a.isdone !== b.isdone) {
                   return a.isdone ? 1 : -1;
                 }
 
-              
                 if (!a.duedate) return 1;
                 if (!b.duedate) return -1;
 
-    
                 return new Date(a.duedate) - new Date(b.duedate);
               })
               .map((task) => (

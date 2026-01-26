@@ -103,9 +103,18 @@ const DashNavbar = ({ activeFilter, setActiveFilter, setSearch }) => {
         <div className="flex flex-col h-full justify-center gap-8 px-8">
           {/* T W M buttons */}
           <div className="grid grid-cols-3 gap-4">
-            <button className="border rounded-full py-2">T</button>
-            <button className="border rounded-full py-2">W</button>
-            <button className="border rounded-full py-2">M</button>
+            <button onClick={() => setActiveFilter("t")}
+              className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "t" ? "bg-blue-500 text-white" : ""}`}
+           >T</button>
+            <button onClick={() => setActiveFilter("w")}
+              className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "w" ? "bg-blue-500 text-white" : ""}`}
+           >W</button>
+            <button onClick={() => setActiveFilter("m")}
+              className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "m" ? "bg-blue-500 text-white" : ""}`}
+           >M</button>
+            <button onClick={() => setActiveFilter("a")}
+              className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "a" ? "bg-blue-500 text-white" : ""}`}
+           >A</button>
           </div>
 
           {/* Navigation Links */}

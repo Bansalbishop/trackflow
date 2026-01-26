@@ -40,6 +40,11 @@ export const DashboardProvider = ({ children }) => {
       ),
     );
   };
+  const updateTaskNote = (id, note) => {
+    setTasks((prev) =>
+      prev.map((task) => (task.id === id ? { ...task, note } : task)),
+    );
+  };
   const changeProject = (id) => {
     // PROJECT: cycle through statuses
     setProjects((prev) =>
@@ -80,6 +85,7 @@ export const DashboardProvider = ({ children }) => {
         addProject,
         deleteProject,
         changeProject,
+        updateTaskNote,
       }}
     >
       {children}
