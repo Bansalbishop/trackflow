@@ -8,6 +8,7 @@ import AboutUs from "./pages/AboutUs";
 import TermsConditions from "./pages/TermsConditions";
 import Add from "./pages/Add";
 import AllTasks from "./pages/AllTasks";
+import AllProjects from "./pages/AllProjects";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/add" element={<Add />} />
         <Route path="/alltasks" element={<AllTasks />} />
+        <Route path="/allprojects" element={<AllProjects />} />
 
         <Route path="/termsconditions" element={<TermsConditions />} />
       </Routes>

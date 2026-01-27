@@ -45,6 +45,11 @@ export const DashboardProvider = ({ children }) => {
       prev.map((task) => (task.id === id ? { ...task, note } : task)),
     );
   };
+  const updateProjectNote = (id, note) => {
+    setTasks((prev) =>
+      prev.map((project) => (project.id === id ? { ...project, note } : project)),
+    );
+  };
   const changeProject = (id) => {
     // PROJECT: cycle through statuses
     setProjects((prev) =>
@@ -86,6 +91,7 @@ export const DashboardProvider = ({ children }) => {
         deleteProject,
         changeProject,
         updateTaskNote,
+        updateProjectNote,
       }}
     >
       {children}

@@ -6,24 +6,31 @@ import { useDashboard } from "../contexts/Dashboard.context";
 import ActivityflexCards from "../components/ActivityflexCards";
 import ActivitygridCards from "../components/ActivitygridCards";
 import Add from "./Add";
-const AllTasks = () => {
-  const state="alltasks";
+const AllProjects = () => {
+  const state = "allprojects";
   const [toggle, setToggle] = useState("flex");
   const [noteText, setNoteText] = useState("");
 
   const [activeTask, setActiveTask] = useState(null);
   //   const [selectedNote,setSelectedNote]=useState(null);
   const [addOpen, setAddOpen] = useState(false);
-  const openNote = (task) => {
-    setActiveTask(task);
-    setNoteText(task.note || "");
+  const openNote = (project) => {
+    setActiveTask(project);
+    setNoteText(project.note || "");
   };
 
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("a");
-  const { tasks, toggleTask, updateTaskNote } = useDashboard();
+  const {
+    tasks,
+    toggleTask,
+    updateTaskNote,
+    projects,
+    changeProject,
+    updateProjectNote,
+  } = useDashboard();
   const closeModal = () => {
-    updateTaskNote(activeTask.id, noteText);
+    updateProjectNote(activeTask.id, noteText);
     setActiveTask(null);
   };
 
@@ -94,7 +101,7 @@ const AllTasks = () => {
 
         <main className="grow py-6">
           <div className="mx-5 mb-5 sm:mx-5 md:mx-20 lg:mx-40 flex items-center justify-between bg-white rounded-2xl p-4 shadow-lg">
-            <h1 className="text-2xl font-bold">All Tasks</h1>
+            <h1 className="text-2xl font-bold">All Projects</h1>
             <div className=" flex items-center gap-10">
               <img
                 src={assets.plus_icon}
@@ -123,7 +130,7 @@ const AllTasks = () => {
             <div className="hidden lg:block">
               {" "}
               {toggle === "flex"
-                ? [...tasks]
+                ? [...projects]
                     .filter(filterbySearch)
                     .filter(filterByDate)
                     .sort((a, b) => {
@@ -254,4 +261,4 @@ const AllTasks = () => {
   );
 };
 
-export default AllTasks;
+export default AllProjects;
