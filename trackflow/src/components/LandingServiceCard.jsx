@@ -13,6 +13,7 @@ const LandingServiceCard = ({ service, index }) => {
 
   return (
     <div
+      id="services"
       className="relative overflow-hidden max-w-lg m-2 sm:m-4 rounded-xl border border-gray-200 shadow-2xl shadow-gray-100 "
       onMouseEnter={() => setVisible(true)}
       onMouseLeave={() => setVisible(false)}

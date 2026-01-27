@@ -2,19 +2,27 @@
 @import "tailwindcss";
 
 * {
-  font-family: "manrope", sans-serif;
+  font-family: "Manrope", sans-serif;
   font-weight: 500;
-  /* cursor:none; */
+  cursor: none;
 }
 
 html {
   scroll-behavior: smooth;
 }
+
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Hide scrollbar utility */
 .hide-scrollbar {
-  scrollbar-width: none;       /* Firefox */
-  -ms-overflow-style: none;    /* IE & Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;               /* Chrome, Safari */
+  display: none;
 }

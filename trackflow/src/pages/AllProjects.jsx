@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DashNavbar from "../components/DashNavbar";
 import DashFooter from "../components/DashFooter";
 import assets from "../assets/assets";
@@ -7,6 +7,33 @@ import ActivityflexCards from "../components/ActivityflexCards";
 import ActivitygridCards from "../components/ActivitygridCards";
 import Add from "./Add";
 const AllProjects = () => {
+  const dotRef = useRef(null);
+  const outlineRef = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const mouse = useRef({ x: 0, y: 0 });
+  const position = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mouse.current.x = e.clientX;
+      mouse.current.y = e.clientY;
+    };
+    document.addEventListener("mousemove", handleMouseMove);
+    const animate = () => {
+      position.current.x += (mouse.current.x - position.current.x) * 0.05;
+      position.current.y += (mouse.current.y - position.current.y) * 0.05;
+      if (dotRef.current && outlineRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouse.current.x - 6}px,${mouse.current.y - 6}px, 0)`;
+        outlineRef.current.style.transform = `translate3d(${position.current.x - 20}px,${position.current.y - 20}px, 0)`;
+      }
+      requestAnimationFrame(animate);
+    };
+    animate();
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
   const state = "allprojects";
   const [toggle, setToggle] = useState("flex");
   const [noteText, setNoteText] = useState("");
@@ -92,6 +119,8 @@ const AllProjects = () => {
         <DashNavbar
           search={search}
           setSearch={setSearch}
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
           activeFilter={activeFilter}
           setActiveFilter={setActiveFilter}
         />
@@ -257,8 +286,8 @@ const AllProjects = () => {
                                 ? "text-green-600 bg-green-50"
                                 : "text-gray-500 bg-gray-100"
                             }`}
-                          >f
-                            {task.title}
+                          >
+                            f{task.title}
                           </div>
                         ))
                       )}
@@ -278,6 +307,15 @@ const AllProjects = () => {
           </div>
         </>
       )}
+      <div
+        ref={outlineRef}
+        className={`${menuOpen ? "border-white" : "border-black"} hidden md:block fixed top-0 left-0 h-10 w-10 rounded-full border border-black  pointer-events-none z-[9999]`}
+      ></div>
+      {/* custom cursor dot */}
+      <div
+        ref={dotRef}
+        className={` ${menuOpen ? "bg-white" : "bg-black"} hidden md:block fixed top-0 left-0 h-3 w-3 rounded-full bg-black pointer-events-none z-[9999]`}
+      ></div>
     </>
   );
 };

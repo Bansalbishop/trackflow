@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import assets from "../assets/assets";
 
-function LandingNavbar() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+function LandingNavbar({ sidebarOpen, setSidebarOpen }) {
+  // const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="flex justify-between relative items-center px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 bg-white/85 backdrop-blur-xl font-medium  ">
@@ -47,7 +47,7 @@ function LandingNavbar() {
         </a>
       </div>
 
-      <div>
+      <div className="flex gap-3">
         <img
           src={assets.menu_icon}
           className="w-6 sm:hidden cursor-pointer"
@@ -55,7 +55,7 @@ function LandingNavbar() {
         ></img>
         <Link
           to="/dashboard"
-          className="bg-black text-white text-sm max-sm:hidden flex items-center gap-2 px-6 py-2 rounded-full cursor-pointer hover:scale-103 transition-all"
+          className="bg-black text-white text-sm flex items-center gap-2 px-2 sm:px-6 py-2 rounded-full cursor-pointer hover:scale-103 transition-all"
         >
           Get Started
         </Link>

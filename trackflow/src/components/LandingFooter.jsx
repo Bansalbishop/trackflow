@@ -21,7 +21,7 @@ const LandingFooter = () => {
               </a>
             </li>
             <li>
-              <a className=" hover:border-b-2" href="#service">
+              <a className=" hover:border-b-2" href="#services">
                 Services
               </a>
             </li>

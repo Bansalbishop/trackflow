@@ -1,10 +1,14 @@
-import React, { useState } from "react";
 import assets from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 
-const DashNavbar = ({ activeFilter, setActiveFilter, setSearch }) => {
+const DashNavbar = ({
+  activeFilter,
+  menuOpen,
+  setMenuOpen,
+  setActiveFilter,
+  setSearch,
+}) => {
   const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
@@ -25,24 +29,28 @@ const DashNavbar = ({ activeFilter, setActiveFilter, setSearch }) => {
 
           <div className="hidden md:grid grid-cols-2">
             <button
+              title="Today"
               onClick={() => setActiveFilter("t")}
               className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "t" ? "bg-blue-500 text-white" : ""}`}
             >
               T
             </button>
             <button
+              title="Weekly"
               onClick={() => setActiveFilter("w")}
               className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "w" ? "bg-blue-500 text-white" : ""}`}
             >
               W
             </button>
             <button
+              title="Monthly"
               onClick={() => setActiveFilter("m")}
               className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "m" ? "bg-blue-500 text-white" : ""}`}
             >
               M
             </button>
             <button
+              title="All"
               onClick={() => setActiveFilter("a")}
               className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "a" ? "bg-blue-500 text-white" : ""}`}
             >
@@ -103,23 +111,39 @@ const DashNavbar = ({ activeFilter, setActiveFilter, setSearch }) => {
         <div className="flex flex-col h-full justify-center gap-8 px-8">
           {/* T W M buttons */}
           <div className="grid grid-cols-3 gap-4">
-            <button onClick={() => setActiveFilter("t")}
+            <button
+              title="today"
+              onClick={() => setActiveFilter("t")}
               className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "t" ? "bg-blue-500 text-white" : ""}`}
-           >T</button>
-            <button onClick={() => setActiveFilter("w")}
+            >
+              T
+            </button>
+            <button
+              title="weekly"
+              onClick={() => setActiveFilter("w")}
               className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "w" ? "bg-blue-500 text-white" : ""}`}
-           >W</button>
-            <button onClick={() => setActiveFilter("m")}
+            >
+              W
+            </button>
+            <button
+              title="monthly"
+              onClick={() => setActiveFilter("m")}
               className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "m" ? "bg-blue-500 text-white" : ""}`}
-           >M</button>
-            <button onClick={() => setActiveFilter("a")}
+            >
+              M
+            </button>
+            <button
+              title="All"
+              onClick={() => setActiveFilter("a")}
               className={`border cursor-pointer border-gray-300 rounded-full px-2 py-1 text-sm mr-2 mt-2 ${activeFilter === "a" ? "bg-blue-500 text-white" : ""}`}
-           >A</button>
+            >
+              A
+            </button>
           </div>
 
           {/* Navigation Links */}
           <Link
-            to="/signup"
+            to="/dashboard"
             className="text-xl"
             onClick={() => setMenuOpen(false)}
           >

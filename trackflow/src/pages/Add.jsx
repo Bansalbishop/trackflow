@@ -1,9 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import assets from "../assets/assets";
 import { createTask } from "../models/task.model";
 import { createProject } from "../models/project.model";
 import { useDashboard } from "../contexts/Dashboard.context";
 const Add = ({ onClose }) => {
+  const dotRef = useRef(null);
+    const outlineRef = useRef(null);
+  
+    const mouse = useRef({ x: 0, y: 0 });
+    const position = useRef({ x: 0, y: 0 });
+  
+    useEffect(() => {
+      const handleMouseMove = (e) => {
+        mouse.current.x = e.clientX;
+        mouse.current.y = e.clientY;
+      };
+      document.addEventListener("mousemove", handleMouseMove);
+      const animate = () => {
+        position.current.x += (mouse.current.x - position.current.x) * 0.05;
+        position.current.y += (mouse.current.y - position.current.y) * 0.05;
+        if (dotRef.current && outlineRef.current) {
+          dotRef.current.style.transform = `translate3d(${mouse.current.x - 6}px,${mouse.current.y - 6}px, 0)`;
+          outlineRef.current.style.transform = `translate3d(${position.current.x - 20}px,${position.current.y - 20}px, 0)`;
+        }
+        requestAnimationFrame(animate);
+      };
+      animate();
+      return () => {
+        document.removeEventListener("mousemove", handleMouseMove);
+      };
+    }, []);
+  
   const [activity, setActivity] = useState("task");
   const { projects, addTask, addProject } = useDashboard();
   const [title, setTitle] = useState("");
@@ -154,6 +181,7 @@ const Add = ({ onClose }) => {
           </button>
         </div>
       </div>
+      
     </div>
   );
 };

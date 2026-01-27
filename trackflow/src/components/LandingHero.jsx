@@ -1,5 +1,6 @@
 import React from "react";
 import assets from "../assets/assets";
+import { Link } from "react-router-dom";
 
 const LandingHero = () => {
   return (
@@ -33,7 +34,9 @@ const LandingHero = () => {
           src={assets.bgImage1}
           className="absolute -top-40 -right-40 sm:-top-100 sm:-right-70 -z-1 filter blur-3xl opacity-90"
         ></img>
+        
       </div>
+      
     </div>
   );
 };
