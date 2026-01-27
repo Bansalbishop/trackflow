@@ -9,9 +9,21 @@ const Add = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [duedate, setDuedate] = useState("");
+  const [link, setLink] = useState("");
+  const normalizeUrl = (url) => {
+    if (!url) return "/dashboard";
+
+    let cleaned = url.trim();
+    if (!/^https?:\/\//i.test(cleaned)) {
+      cleaned = "https://" + cleaned;
+    }
+
+    return cleaned;
+  };
 
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const handleSubmit = () => {
+    const safelink = normalizeUrl(link);
     if (!title.trim()) return;
     if (activity === "task") {
       const newTask = createTask({
@@ -19,20 +31,26 @@ const Add = ({ onClose }) => {
         description,
         duedate,
         projectId: selectedProjectId,
+        link: safelink,
       });
       addTask(newTask);
 
       setSelectedProjectId(null);
     } else {
-      const newProject = createProject({ title, description, duedate });
+      const newProject = createProject({
+        title,
+        description,
+        duedate,
+        link: safelink,
+      });
       addProject(newProject);
     }
     setTitle("");
     setDescription("");
+    setLink("");
     setDuedate("");
-    
-      onClose();
-    
+
+    onClose();
   };
 
   return (
@@ -87,6 +105,14 @@ const Add = ({ onClose }) => {
             required
             onChange={(e) => {
               setDescription(e.target.value);
+            }}
+            className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            placeholder="link of external site (if any)"
+            onChange={(e) => {
+              setLink(e.target.value);
             }}
             className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-500"
           />

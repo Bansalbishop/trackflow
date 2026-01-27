@@ -1,9 +1,33 @@
 import assets from "../assets/assets";
 import { useDashboard } from "../contexts/Dashboard.context";
 const ActivityflexCards = ({ task, whichState, onViewNote, onToggle }) => {
-  const { id, title, description, isdone, projectId, duedate, status, image } =
+  const { id, title, description, isdone, projectId, duedate, status, image,link } =
     task;
-  const { deleteTask, projects } = useDashboard();
+  const { deleteTask,deleteProject, projects } = useDashboard();
+  let label = "";
+  let badgeClass = "";
+
+  if (whichState === "alltasks") {
+    if (isdone) {
+      label = "Done";
+      badgeClass = "bg-green-50 text-green-600 border-green-300";
+    } else {
+      label = "Pending";
+      badgeClass = "bg-gray-50 text-gray-500 border-gray-300";
+    }
+  } else {
+    if (status === "completed") {
+      label = "Done";
+      badgeClass = "bg-green-50 text-green-600 border-green-300";
+    } else if (status === "stopped") {
+      label = "Pending";
+      badgeClass = "bg-gray-50 text-gray-600 border-gray-300";
+    } else {
+      label = "Ongoing";
+      badgeClass = "bg-yellow-50 text-yellow-600 border-yellow-300";
+    }
+  }
+
   return (
     <div
       className={`flex  border-2 hover:shadow-md transition-all mb-4  border-gray-100 rounded-lg p-3 hover:border-blue-300 items-center gap-3  `}
@@ -16,27 +40,9 @@ const ActivityflexCards = ({ task, whichState, onViewNote, onToggle }) => {
         <div className="flex justify-between">
           <h3 className="font-extrabold text-xl ">{title}</h3>
           <span
-            className={`text-xs px-3 py-1 rounded-full border ${
-              whichState === "alltasks"
-                ? isdone
-                  ? "bg-green-50 text-green-600 border-green-300"
-                  : "bg-gray-50 text-gray-500 border-gray-300"
-                : status === "started"
-                  ? "bg-green-50 text-green-600 border-green-300"
-                  : status === "ongoing"
-                    ? "bg-yellow-50 text-yellow-600 border-green-300"
-                    : "bg-gray-50 text-gray-600 border-gray-300"
-            }`}
+            className={`text-xs px-3 py-1 rounded-full border ${badgeClass}`}
           >
-            {whichState === "alltasks"
-              ? isdone
-                ? "Done"
-                : "Pending"
-              : status === "started"
-                ? "Done"
-                : status === "ongoing"
-                  ? "Ongoing"
-                  : "Done"}
+            {label}
           </span>
         </div>
         {whichState === "alltasks" && projectId ? (
@@ -54,22 +60,38 @@ const ActivityflexCards = ({ task, whichState, onViewNote, onToggle }) => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center gap-3 w-40 items-end">
-        <div className="flex gap-2">
+      <div className="flex flex-col items-center gap-3 w-30 items-end">
+        <div className="grid grid-cols-2 items-center gap-2">
           <img
             src={assets.noteicon}
             className="p-1 hover:scale-105 transition-all w-8 rounded-lg bg-yellow-500 text-white"
             onClick={() => onViewNote(task)}
           ></img>
           <img
+            src={assets.linkicon}
+            className="p-1 hover:scale-105 transition-all w-8 rounded-lg bg-blue-300 text-white"
+              onClick={() => window.open(link, "_blank")}
+
+          ></img>
+          <img
             src={assets.donelogo}
-            className={`p-1 hover:scale-105 transition-all w-8 rounded-lg ${isdone ? "bg-green-500" : "bg-gray-300"} text-white`}
+            className={`p-1 hover:scale-105 transition-all w-8 rounded-lg ${
+              whichState === "alltasks"
+                ? isdone
+                  ? "bg-green-500 text-green-600 border-green-300"
+                  : "bg-gray-300 text-gray-500 border-gray-300"
+                : status === "completed"
+                  ? "bg-green-500 text-green-600 border-green-300"
+                  : status === "stopped"
+                    ? "bg-gray-200 text-gray-600 border-gray-300"
+                    : "bg-yellow-300 text-yellow-600 border-yellow-300"
+            } text-white`}
             onClick={() => onToggle(id)}
           ></img>
           <img
             src={assets.deletelogo}
             className="p-1 hover:scale-105 w-8 transition-all  rounded-lg bg-red-700 text-white"
-            onClick={() => deleteTask(id)}
+            onClick={() => {whichState==="alltasks"?deleteTask(id):deleteProject(id)}}
           ></img>
         </div>
         <p className="text-[15px] font-extralight text-gray-400">{duedate}</p>

@@ -20,15 +20,12 @@ const AllProjects = () => {
   };
 
   const [search, setSearch] = useState("");
+
   const [activeFilter, setActiveFilter] = useState("a");
-  const {
-    tasks,
-    toggleTask,
-    updateTaskNote,
-    projects,
-    changeProject,
-    updateProjectNote,
-  } = useDashboard();
+  const { tasks, projects, changeProject, updateProjectNote } = useDashboard();
+  const projectTasks = activeTask
+    ? tasks.filter((task) => task.projectId === activeTask.id)
+    : [];
   const closeModal = () => {
     updateProjectNote(activeTask.id, noteText);
     setActiveTask(null);
@@ -134,8 +131,11 @@ const AllProjects = () => {
                     .filter(filterbySearch)
                     .filter(filterByDate)
                     .sort((a, b) => {
-                      if (a.isdone !== b.isdone) {
-                        return a.isdone ? 1 : -1;
+                      if (
+                        (a.status === "completed") -
+                        (b.status === "completed")
+                      ) {
+                        return a.status === "completed" ? 1 : -1;
                       }
 
                       if (!a.duedate) return 1;
@@ -143,15 +143,15 @@ const AllProjects = () => {
 
                       return new Date(a.duedate) - new Date(b.duedate);
                     })
-                    .map((task) => (
+                    .map((project) => (
                       <ActivityflexCards
-                        key={task.id}
-                        task={task}
+                        key={project.id}
+                        task={project}
                         onViewNote={openNote}
                         whichState={state}
                         //   selectedNote={selectedNote}
                         //   setSelectedNote={setSelectedNote}
-                        onToggle={toggleTask}
+                        onToggle={changeProject}
                       />
                     ))
                 : null}
@@ -159,12 +159,12 @@ const AllProjects = () => {
             {/* GRID layout: always visible on mobile & tablet */}
             <div className="grid lg:hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
               {/* Grid cards here */}
-              {[...tasks]
+              {[...projects]
                 .filter(filterbySearch)
                 .filter(filterByDate)
                 .sort((a, b) => {
-                  if (a.isdone !== b.isdone) {
-                    return a.isdone ? 1 : -1;
+                  if ((a.status === "completed" - b.status) === "completed") {
+                    return a.status === "completed" ? 1 : -1;
                   }
 
                   if (!a.duedate) return 1;
@@ -172,15 +172,15 @@ const AllProjects = () => {
 
                   return new Date(a.duedate) - new Date(b.duedate);
                 })
-                .map((task) => (
+                .map((project) => (
                   <ActivitygridCards
-                    key={task.id}
+                    key={project.id}
                     whichState={state}
-                    task={task}
+                    task={project}
                     onViewNote={openNote}
                     //   selectedNote={selectedNote}
                     //   setSelectedNote={setSelectedNote}
-                    onToggle={toggleTask}
+                    onToggle={changeProject}
                   />
                 ))}
             </div>
@@ -188,12 +188,12 @@ const AllProjects = () => {
             {/* GRID layout on desktop when toggle === "grid" */}
             <div className="hidden lg:grid lg:grid-cols-3 ">
               {toggle === "grid" &&
-                [...tasks]
+                [...projects]
                   .filter(filterbySearch)
                   .filter(filterByDate)
                   .sort((a, b) => {
-                    if (a.isdone !== b.isdone) {
-                      return a.isdone ? 1 : -1;
+                    if ((a.status === "completed" - b.status) === "completed") {
+                      return a.status === "completed" ? 1 : -1;
                     }
 
                     if (!a.duedate) return 1;
@@ -201,15 +201,15 @@ const AllProjects = () => {
 
                     return new Date(a.duedate) - new Date(b.duedate);
                   })
-                  .map((task) => (
+                  .map((project) => (
                     <ActivitygridCards
-                      key={task.id}
-                      task={task}
+                      key={project.id}
+                      task={project}
                       whichState={state}
                       onViewNote={openNote}
                       //   selectedNote={selectedNote}
                       //   setSelectedNote={setSelectedNote}
-                      onToggle={toggleTask}
+                      onToggle={changeProject}
                     />
                   ))}
             </div>
@@ -241,6 +241,27 @@ const AllProjects = () => {
                       <button onClick={closeModal} className="text-xl">
                         ✕
                       </button>
+                    </div>
+                    <div className=" rounded-lg p-3 mb-2 max-h-48 overflow-y-auto space-y-2">
+                      <p className="text-xs ">Tasks for this project:</p>
+                      {projectTasks.length === 0 ? (
+                        <p className="text-gray-400 text-sm">
+                          No tasks for this project
+                        </p>
+                      ) : (
+                        projectTasks.map((task) => (
+                          <div
+                            key={task.id}
+                            className={`p-2 rounded-md text-sm font-medium ${
+                              task.isdone
+                                ? "text-green-600 bg-green-50"
+                                : "text-gray-500 bg-gray-100"
+                            }`}
+                          >f
+                            {task.title}
+                          </div>
+                        ))
+                      )}
                     </div>
 
                     <textarea

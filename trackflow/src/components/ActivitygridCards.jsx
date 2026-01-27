@@ -2,10 +2,42 @@ import assets from "../assets/assets";
 import { useDashboard } from "../contexts/Dashboard.context";
 
 const ActivitygridCards = ({ task, whichState, onViewNote, onToggle }) => {
-  const { id, title, description, projectId, isdone, duedate, image, status } =
-    task;
+  const {
+    id,
+    title,
+    description,
+    projectId,
+    isdone,
+    link,
+    duedate,
+    image,
+    status,
+  } = task;
 
-  const { deleteTask, projects } = useDashboard();
+  const { deleteTask, deleteProject, projects } = useDashboard();
+  let label = "";
+  let badgeClass = "";
+
+  if (whichState === "alltasks") {
+    if (isdone) {
+      label = "Done";
+      badgeClass = "bg-green-50 text-green-600 border-green-300";
+    } else {
+      label = "Pending";
+      badgeClass = "bg-gray-50 text-gray-500 border-gray-300";
+    }
+  } else {
+    if (status === "completed") {
+      label = "Done";
+      badgeClass = "bg-green-50 text-green-600 border-green-300";
+    } else if (status === "stopped") {
+      label = "Pending";
+      badgeClass = "bg-gray-50 text-gray-600 border-gray-300";
+    } else {
+      label = "Ongoing";
+      badgeClass = "bg-yellow-50 text-yellow-600 border-yellow-300";
+    }
+  }
 
   return (
     <div className="flex flex-col h-[260px] border mx-1 mb-1 border-gray-200 rounded-xl p-4 hover:shadow-lg transition-all bg-white">
@@ -19,28 +51,8 @@ const ActivitygridCards = ({ task, whichState, onViewNote, onToggle }) => {
 
         <h3 className="font-bold text-base truncate flex-1">{title}</h3>
 
-        <span
-          className={`text-xs px-3 py-1 rounded-full border ${
-            whichState === "alltasks"
-              ? isdone
-                ? "bg-green-50 text-green-600 border-green-300"
-                : "bg-gray-50 text-gray-500 border-gray-300"
-              : status === "started"
-                ? "bg-green-50 text-green-600 border-green-300"
-                : status === "ongoing"
-                  ? "bg-yellow-50 text-yellow-600 border-green-300"
-                  : "bg-gray-50 text-gray-600 border-gray-300"
-          }`}
-        >
-          {whichState === "alltasks"
-            ? isdone
-              ? "Done"
-              : "Pending"
-            : status === "started"
-              ? "Done"
-              : status === "ongoing"
-                ? "Ongoing"
-                : "Done"}
+        <span className={`text-xs px-3 py-1 rounded-full border ${badgeClass}`}>
+          {label}
         </span>
       </div>
       {whichState === "alltasks" && projectId ? (
@@ -69,19 +81,35 @@ const ActivitygridCards = ({ task, whichState, onViewNote, onToggle }) => {
           >
             <img src={assets.noteicon} className="w-5" />
           </button>
-
+          <button
+            title="Open Link"
+            onClick={() => window.open(link)}
+            className="w-11 h-11 flex items-center justify-center rounded-lg bg-blue-300 hover:scale-105 transition"
+          >
+            <img src={assets.linkicon} className="w-5" />
+          </button>
           <button
             onClick={() => onToggle(id)}
             title="Mark as Done/ Undone"
             className={`w-11 h-11 flex items-center justify-center rounded-lg transition hover:scale-105 ${
-              isdone ? "bg-green-500" : "bg-gray-300"
+              whichState === "alltasks"
+                ? isdone
+                  ? "bg-green-500 text-green-600 border-green-300"
+                  : "bg-gray-500 text-gray-500 border-gray-300"
+                : status === "completed"
+                  ? "bg-green-500 text-green-600 border-green-300"
+                  : status === "stopped"
+                    ? "bg-gray-200 text-gray-600 border-gray-300"
+                    : "bg-yellow-300 text-yellow-600 border-yellow-300"
             }`}
           >
             <img src={assets.donelogo} className="w-5" />
           </button>
 
           <button
-            onClick={() => deleteTask(id)}
+            onClick={() => {
+              whichState === "alltasks" ? deleteTask(id) : deleteProject(id);
+            }}
             title="Delete"
             className="w-11 h-11 flex items-center justify-center rounded-lg bg-red-600 hover:scale-105 transition"
           >

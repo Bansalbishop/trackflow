@@ -6,6 +6,7 @@ import bgImage2 from "./bgImage2.png";
 import hero_img from "./heroimage.png";
 import microsoft_logo from "./microsoft_logo.png";
 import zoom_logo from "./zoom_logo.png";
+import linkicon from "./linkicon.png";
 
 import rakuten_logo from "./rakuten_logo.png";
 import coinbase_logo from "./coinbase_logo.png";
@@ -55,6 +56,7 @@ export const company_logos = [
 const assets = {
   logo,
   task_logo,
+  linkicon,
   donelogo,
   deletelogo,
   noteicon,
