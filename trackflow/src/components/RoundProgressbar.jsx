@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const RoundProgressbar = ({
+  state,
   total,
   completed,
   activityType,
@@ -135,10 +136,12 @@ const RoundProgressbar = ({
           <p>Pending</p>
         </div>
 
-        <div className="flex gap-1 items-center">
-          <button className="bg-yellow-500 border-2 border-yellow-500 p-2 rounded-lg"></button>
-          <p>Ongoing</p>
-        </div>
+        {state === "project" ? (
+          <div className="flex gap-1 items-center">
+            <button className="bg-yellow-500 border-2 border-yellow-500 p-2 rounded-lg"></button>
+            <p>Ongoing</p>
+          </div>
+        ) : null}
 
         <div className="flex gap-1 items-center">
           <button className="bg-green-500 border-2 border-green-500 p-2 rounded-lg"></button>

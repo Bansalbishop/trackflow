@@ -92,7 +92,7 @@ const Dashboard = () => {
           <div className="flex flex-col-reverse md:flex-row justify-evenly">
             <div className="flex mx-5 my-10 rounded-2xl p-4 sm:ml-5 md:ml-20 lg:ml-40 text-black bg-white gap-10 sm:gap-0  flex-col shadow-lg sm:flex-row justify-between  items-center md:w-1/3 lg:w-1/4">
               <Dashlist
-              search={search}
+                search={search}
                 activeFilter={activeFilter}
                 onAddClick={() => setAddOpen(true)}
               />
@@ -100,6 +100,7 @@ const Dashboard = () => {
             <div className="  md:w-2/3 flex items:center md:items-start bg-transparent my-10 mx-5 sm:mr-5 md:mr-20 lg:mr-40 rounded-2xl  text-black gap-5  flex-col lg:flex-row justify-evenly">
               <div className="bg-white shadow-lg rounded-2xl py-10 px-4">
                 <RoundProgressbar
+                  state={"task"}
                   total={tasks.length}
                   pending={taskpendingCount}
                   ongoing={0}
@@ -109,6 +110,7 @@ const Dashboard = () => {
               </div>
               <div className="bg-white shadow-lg rounded-2xl py-10 px-4">
                 <RoundProgressbar
+                  state={"project"}
                   total={projects.length}
                   pending={projectpendingCount}
                   ongoing={projectongoingCount}

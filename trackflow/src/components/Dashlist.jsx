@@ -4,8 +4,7 @@ import MylistCard from "./MylistCard";
 import { useDashboard } from "../contexts/Dashboard.context";
 
 const Dashlist = ({ onAddClick, activeFilter, search }) => {
-  const { tasks, projects, toggleTask, changeProject} =
-    useDashboard();
+  const { tasks, projects, toggleTask, changeProject } = useDashboard();
   const [activeTab, setActiveTab] = useState("task");
 
   const isToday = (date) => {
@@ -134,6 +133,7 @@ const Dashlist = ({ onAddClick, activeFilter, search }) => {
               })
               .map((task) => (
                 <MylistCard
+                  onClick={() => window.open(task.link)}
                   key={task.id}
                   task={task}
                   trueState="task"
@@ -148,6 +148,7 @@ const Dashlist = ({ onAddClick, activeFilter, search }) => {
               )
               .map((project) => (
                 <MylistCard
+                  onClick={() => window.open(project.link)}
                   key={`project-${project.id}`}
                   task={project}
                   trueState="project"

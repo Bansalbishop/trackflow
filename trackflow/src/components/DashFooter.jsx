@@ -17,7 +17,7 @@ const DashFooter = () => {
             onClick={goLandingPage}
             className="text-black cursor-pointer text-2xl sm:text-3xl md:text-3xl font-extrabold  lg:text-4xl font-serif py-4"
           >
-            TaskFLow
+            TaskFlow
           </p>
           <p className="max-w-md">
             It will multiply your productivity by tracking and managing the flow

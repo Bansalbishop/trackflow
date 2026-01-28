@@ -17,12 +17,12 @@ const DashNavbar = ({
           onClick={() => navigate("/")}
           className=" cursor-pointer text-black text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-serif  font-bold py-4 px-6"
         >
-          TaskFLow
+          TaskFlow
         </p>
         <div className="flex gap-4 items-center ">
           <input
             type="text"
-            className="border-2 border-gray-300 md:w-60 lg:w-100 xl:w-120 rounded-full px-4 py-2 "
+            className="border-2 border-gray-300 w-40 md:w-60 lg:w-100 xl:w-120 rounded-full px-4 py-2 "
             placeholder="Search here"
             onChange={(e) => setSearch(e.target.value)}
           ></input>
