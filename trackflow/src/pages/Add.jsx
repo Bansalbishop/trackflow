@@ -3,7 +3,7 @@ import assets from "../assets/assets";
 import { createTask } from "../models/task.model";
 import { createProject } from "../models/project.model";
 import { useDashboard } from "../contexts/Dashboard.context";
-const Add = ({ onClose }) => {
+const Add = ({ onClose ,setAddState,addState }) => {
   const dotRef = useRef(null);
     const outlineRef = useRef(null);
   
@@ -31,7 +31,9 @@ const Add = ({ onClose }) => {
       };
     }, []);
   
-  const [activity, setActivity] = useState("task");
+  const [activity, setActivity] = useState(
+    addState==="project"?"project":"task"
+  );
   const { projects, addTask, addProject } = useDashboard();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -102,12 +104,12 @@ const Add = ({ onClose }) => {
             <img
               src={assets.task_logo}
               className={`w-20 cursor-pointer border-white   shadow-lg p-2 border-2  rounded-lg ${activity === "task" ? "bg-blue-500 border-white" : "hover:border-black"}`}
-              onClick={() => setActivity("task")}
+              onClick={() => {setActivity("task"); setAddState("task")}}
               alt=""
             />
             <img
               src={assets.project_logo}
-              onClick={() => setActivity("project")}
+              onClick={() => {setActivity("project"); setAddState("project")}}
               className={`w-20 cursor-pointer  shadow-lg p-2 border-2 border-white rounded-lg ${activity === "project" ? "bg-blue-500 border-white" : "hover:border-black"}`}
               calt=""
             />

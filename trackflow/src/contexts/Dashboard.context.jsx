@@ -46,8 +46,10 @@ export const DashboardProvider = ({ children }) => {
     );
   };
   const updateProjectNote = (id, note) => {
-    setTasks((prev) =>
-      prev.map((project) => (project.id === id ? { ...project, note } : project)),
+    setProjects((prev) =>
+      prev.map((project) =>
+        project.id === id ? { ...project, note } : project,
+      ),
     );
   };
   const changeProject = (id) => {

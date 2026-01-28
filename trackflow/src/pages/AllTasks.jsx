@@ -9,7 +9,7 @@ import Add from "./Add";
 const AllTasks = () => {
   const dotRef = useRef(null);
   const outlineRef = useRef(null);
-
+  const [addState, setAddState] = useState("task");
   const mouse = useRef({ x: 0, y: 0 });
   const position = useRef({ x: 0, y: 0 });
 
@@ -244,7 +244,11 @@ const AllTasks = () => {
           <DashFooter />
         </footer>
       </div>
-      <div>{addOpen && <Add onClose={() => setAddOpen(false)} />}</div>
+      <div>
+        {addOpen && (
+          <Add addState={addState} onClose={() => setAddOpen(false)} />
+        )}
+      </div>
       {activeTask && (
         <>
           {/* Backdrop */}

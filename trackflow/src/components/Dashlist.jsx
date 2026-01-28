@@ -3,7 +3,7 @@ import assets from "../assets/assets";
 import MylistCard from "./MylistCard";
 import { useDashboard } from "../contexts/Dashboard.context";
 
-const Dashlist = ({ onAddClick, activeFilter, search }) => {
+const Dashlist = ({ onAddClick, setAddState, activeFilter, search }) => {
   const { tasks, projects, toggleTask, changeProject } = useDashboard();
   const [activeTab, setActiveTab] = useState("task");
 
@@ -76,7 +76,10 @@ const Dashlist = ({ onAddClick, activeFilter, search }) => {
       <div>
         <div className="flex justify-center gap-4 my-2 mb-1">
           <button
-            onClick={() => setActiveTab("task")}
+            onClick={() => {
+              setActiveTab("task");
+              setAddState("task");
+            }}
             className={`border-2 px-4 py-1 rounded-full transition-all ${
               activeTab === "task"
                 ? "bg-blue-500 text-white scale-110"
@@ -87,7 +90,10 @@ const Dashlist = ({ onAddClick, activeFilter, search }) => {
           </button>
 
           <button
-            onClick={() => setActiveTab("project")}
+            onClick={() => {
+              setActiveTab("project");
+              setAddState("project");
+            }}
             className={`border-2 px-4 py-1 rounded-full transition-all ${
               activeTab === "project"
                 ? "bg-blue-500 text-white scale-110"

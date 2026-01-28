@@ -9,6 +9,7 @@ import LandingFooter from "../components/LandingFooter";
 import DashFooter from "../components/DashFooter";
 import Add from "./Add";
 const Dashboard = () => {
+  const [addState, setAddState] = useState("task");
   const dotRef = useRef(null);
   const outlineRef = useRef(null);
   const [search, setSearch] = useState("");
@@ -94,6 +95,7 @@ const Dashboard = () => {
               <Dashlist
                 search={search}
                 activeFilter={activeFilter}
+                setAddState={setAddState}
                 onAddClick={() => setAddOpen(true)}
               />
             </div>
@@ -125,7 +127,7 @@ const Dashboard = () => {
           <DashFooter />
         </div>
       </div>
-      <div>{addOpen && <Add onClose={() => setAddOpen(false)} />}</div>
+      <div>{addOpen && <Add addState={addState} setAddState={setAddState} onClose={() => setAddOpen(false)} />}</div>
       <div
         ref={outlineRef}
         className={`${menuOpen ? "border-white" : "border-black"} hidden md:block fixed top-0 left-0 h-10 w-10 rounded-full border border-black  pointer-events-none z-[9999]`}
