@@ -1,13 +1,25 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import assets from "../assets/assets";
 
 const DashboardContext = createContext();
 
 export const DashboardProvider = ({ children }) => {
   const [tasks, setTasks] = useState(() => {
-    return JSON.parse(localStorage.getItem("tasks")) || [];
+    const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    return storedTasks.map((task) => ({
+      ...task,
+      image: assets.task_logo, // 🔥 force new image once
+    }));
   });
+
   const [projects, setProjects] = useState(() => {
-    return JSON.parse(localStorage.getItem("projects")) || [];
+    const storedProjects = JSON.parse(localStorage.getItem("projects")) || [];
+
+    return storedProjects.map((project) => ({
+      ...project,
+      image: assets.project_logo, // 👈 project image
+    }));
   });
 
   useEffect(() => {
