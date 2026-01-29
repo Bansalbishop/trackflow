@@ -1,14 +1,24 @@
+import { useState } from "react";
 import assets from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
+import { useDashboard } from "../contexts/Dashboard.context";
+import { useLocation } from "react-router-dom";
 
 const DashNavbar = ({
   activeFilter,
   menuOpen,
+  setSelectedProject,
+  selectedProject,
   setMenuOpen,
   setActiveFilter,
   setSearch,
 }) => {
   const navigate = useNavigate();
+  const { projects } = useDashboard();
+  const location = useLocation();
+  const pathname = location.pathname;
+
+  const [projectPickerOpen, setProjectPickerOpen] = useState(null);
 
   return (
     <>
@@ -20,12 +30,77 @@ const DashNavbar = ({
           TaskFlow
         </p>
         <div className="flex gap-4 items-center ">
-          <input
-            type="text"
-            className="border-2 border-gray-300 w-40 md:w-60 lg:w-100 xl:w-120 rounded-full px-4 py-2 "
-            placeholder="Search here"
-            onChange={(e) => setSearch(e.target.value)}
-          ></input>
+          <div className="relative flex items-center gap-2 border-2 border-gray-300 rounded-full px-3 py-1 w-60 md:w-80">
+            {/* Selected Project Chip */}
+            {selectedProject && (
+              <>
+              <div
+                className=" flex-col items-center bg-blue-500 hidden sm:flex whitespace-nowrap text-white w-20  overflow-hidden relative text-xs px-3 py-1 rounded-xl"
+                onClick={() => setSelectedProject(null)}
+              >
+                {selectedProject.title}
+                <span className="text-[8px]">Tap to Close</span>
+              </div>
+              <div
+                className="flex flex-col items-center bg-blue-500 block sm:hidden whitespace-nowrap text-white w-20  overflow-hidden relative text-xs px-3 py-1 rounded-xl"
+                onClick={() => setSelectedProject(null)}
+              >
+                <span title="Close">X</span>                
+              </div></>
+            )}
+
+            {/* Search Input */}
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 outline-none bg-transparent px-2"
+            />
+
+            {/* Project Picker Icon */}
+            {!pathname.includes("/allprojects") && !selectedProject && (
+              <img
+                src={assets.project_logo}
+                title="select project"
+                onClick={() => setProjectPickerOpen(true)}
+                className="w-7 absolute right-3 bg-blue-300  p-1 rounded-sm cursor-pointer"
+              />
+            )}
+
+            {projectPickerOpen && (
+              <div className="absolute top-full mt-2 left-0 w-full bg-white shadow-xl rounded-xl z-50 overflow-hidden">
+                {projects.length === 0 && (
+                  <p className="px-4 py-3 text-sm text-gray-400">No projects</p>
+                )}
+
+                {projects.map((project) => (
+                  <>
+                    <div
+                      key={project.id}
+                      onClick={() => {
+                        setSelectedProject(project);
+                        setProjectPickerOpen(false);
+                      }}
+                      className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-sm"
+                    >
+                      {project.title}
+                    </div>
+                  </>
+                ))}
+                {
+                  <div
+                    onClick={() => {
+                      setSelectedProject(null);
+                      setProjectPickerOpen(false);
+                    }}
+                    className="px-4 py-2 bg-red-300 cursor-pointer text-sm"
+                  >
+                    Close X
+                  </div>
+                }
+              </div>
+            )}
+          </div>
 
           <div className="hidden md:grid grid-cols-2">
             <button
@@ -84,7 +159,7 @@ const DashNavbar = ({
 
         <img
           src={assets.person_icon}
-          className="w-10 h-10 rounded-full m-4"
+          className="w-6 h-6 md:w-9 md:h-9 rounded-full m-4"
         ></img>
         {/* Mobile Menu Button */}
         <button

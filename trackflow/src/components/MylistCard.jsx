@@ -8,12 +8,16 @@ const MylistCard = ({ task, trueState, onClick, onToggle }) => {
       onClick={onClick}
       className="flex  border-2 hover:shadow-md transition-all mb-4  border-gray-100 rounded-lg p-3 hover:border-blue-300 items-center gap-3"
     >
-      <div>
-        <img src={image} className="w-15 bg-gray-200 p-2 rounded-lg"></img>
-      </div>
+      {
+        trueState==="task"?(<div>
+        <img src={image} className="w-15 bg-yellow-200/60 p-2 rounded-lg"></img>
+      </div>):(<div>
+        <img src={image} className="w-15 bg-blue-300 p-2 rounded-lg"></img>
+      </div>)
+      }
 
       <div className="flex-1 min-w-0">
-        <h3 className="font-extrabold ">{title}</h3>
+        <h3 className="font-extrabold overflow-x-hidden ">{title}</h3>
         <h5 className=" text-sm truncate text-gray-400">{description}</h5>
       </div>
 

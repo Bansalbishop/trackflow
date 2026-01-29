@@ -33,7 +33,7 @@ const ActivityflexCards = ({ task, whichState, onViewNote, onToggle }) => {
       className={`flex  border-2 hover:shadow-md transition-all mb-4  border-gray-100 rounded-lg p-3 hover:border-blue-300 items-center gap-3  `}
     >
       <div>
-        <img src={image} className="max-w-15 bg-gray-200 p-2 rounded-lg"></img>
+        <img src={image} className="max-w-15 bg-gray-200/50 p-2 rounded-lg"></img>
       </div>
 
       <div className="flex-1 w-100">

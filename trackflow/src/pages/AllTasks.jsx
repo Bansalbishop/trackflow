@@ -10,6 +10,8 @@ const AllTasks = () => {
   const dotRef = useRef(null);
   const outlineRef = useRef(null);
   const [addState, setAddState] = useState("task");
+    const [selectedProject, setSelectedProject] = useState(null);
+  
   const mouse = useRef({ x: 0, y: 0 });
   const position = useRef({ x: 0, y: 0 });
 
@@ -101,11 +103,31 @@ const AllTasks = () => {
     return true;
   };
 
-  const filterbySearch = (item) => {
-    if (!search || !search.trim()) return true;
 
-    return item.title.toLowerCase().includes(search.toLowerCase());
-  };
+const filteredTasks = tasks
+  .filter((task) => {
+    // project scope (if selected)
+    if (selectedProject && task.projectId !== selectedProject.id) {
+      return false;
+    }
+
+    // search
+    if (search.trim()) {
+      return task.title.toLowerCase().includes(search.toLowerCase());
+    }
+
+    return true;
+  })
+  .filter(filterByDate)
+  .sort((a, b) => {
+    if (a.isdone !== b.isdone) {
+      return a.isdone ? 1 : -1;
+    }
+    if (!a.duedate) return 1;
+    if (!b.duedate) return -1;
+    return new Date(a.duedate) - new Date(b.duedate);
+  });
+
 
   return (
     <>
@@ -115,11 +137,13 @@ const AllTasks = () => {
         {/* Navbar */}
         <DashNavbar
           search={search}
-          setSearch={setSearch}
           menuOpen={menuOpen}
           setMenuOpen={setMenuOpen}
+          setSearch={setSearch}
           activeFilter={activeFilter}
           setActiveFilter={setActiveFilter}
+          selectedProject={selectedProject}
+          setSelectedProject={setSelectedProject}
         />
 
         <main className="grow py-6">
@@ -153,19 +177,7 @@ const AllTasks = () => {
             <div className="hidden lg:block">
               {" "}
               {toggle === "flex"
-                ? [...tasks]
-                    .filter(filterbySearch)
-                    .filter(filterByDate)
-                    .sort((a, b) => {
-                      if (a.isdone !== b.isdone) {
-                        return a.isdone ? 1 : -1;
-                      }
-
-                      if (!a.duedate) return 1;
-                      if (!b.duedate) return -1;
-
-                      return new Date(a.duedate) - new Date(b.duedate);
-                    })
+                ?filteredTasks
                     .map((task) => (
                       <ActivityflexCards
                         key={task.id}
@@ -182,19 +194,7 @@ const AllTasks = () => {
             {/* GRID layout: always visible on mobile & tablet */}
             <div className="grid lg:hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
               {/* Grid cards here */}
-              {[...tasks]
-                .filter(filterbySearch)
-                .filter(filterByDate)
-                .sort((a, b) => {
-                  if (a.isdone !== b.isdone) {
-                    return a.isdone ? 1 : -1;
-                  }
-
-                  if (!a.duedate) return 1;
-                  if (!b.duedate) return -1;
-
-                  return new Date(a.duedate) - new Date(b.duedate);
-                })
+              {filteredTasks
                 .map((task) => (
                   <ActivitygridCards
                     key={task.id}
@@ -211,19 +211,7 @@ const AllTasks = () => {
             {/* GRID layout on desktop when toggle === "grid" */}
             <div className="hidden lg:grid lg:grid-cols-3 ">
               {toggle === "grid" &&
-                [...tasks]
-                  .filter(filterbySearch)
-                  .filter(filterByDate)
-                  .sort((a, b) => {
-                    if (a.isdone !== b.isdone) {
-                      return a.isdone ? 1 : -1;
-                    }
-
-                    if (!a.duedate) return 1;
-                    if (!b.duedate) return -1;
-
-                    return new Date(a.duedate) - new Date(b.duedate);
-                  })
+                filteredTasks
                   .map((task) => (
                     <ActivitygridCards
                       key={task.id}

@@ -6,10 +6,12 @@ import { useDashboard } from "../contexts/Dashboard.context";
 import ActivityflexCards from "../components/ActivityflexCards";
 import ActivitygridCards from "../components/ActivitygridCards";
 import Add from "./Add";
+
 const AllProjects = () => {
   const dotRef = useRef(null);
   const outlineRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  
   const mouse = useRef({ x: 0, y: 0 });
   const position = useRef({ x: 0, y: 0 });
   const [addState, setAddState] = useState("project");

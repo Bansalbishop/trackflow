@@ -3,8 +3,14 @@ import assets from "../assets/assets";
 import MylistCard from "./MylistCard";
 import { useDashboard } from "../contexts/Dashboard.context";
 
-const Dashlist = ({ onAddClick, setAddState, activeFilter, search }) => {
-  const { tasks, projects, toggleTask, changeProject } = useDashboard();
+const Dashlist = ({
+  tasks,
+  projects,
+  activeFilter,
+  setAddState,
+  onAddClick,
+}) => {
+  const { toggleTask, changeProject } = useDashboard();
   const [activeTab, setActiveTab] = useState("task");
 
   const isToday = (date) => {
@@ -51,12 +57,6 @@ const Dashlist = ({ onAddClick, setAddState, activeFilter, search }) => {
     if (activeFilter === "m") return isThisMonth(item.duedate);
 
     return true;
-  };
-
-  const filterbySearch = (item) => {
-    if (!search || !search.trim()) return true;
-
-    return item.title.toLowerCase().includes(search.toLowerCase());
   };
 
   return (
@@ -125,40 +125,33 @@ const Dashlist = ({ onAddClick, setAddState, activeFilter, search }) => {
       <div className="h-[45vh] hide-scrollbar overflow-y-auto">
         {activeTab === "task"
           ? [...tasks]
-              .filter(filterbySearch)
               .filter(filterByDate)
               .sort((a, b) => {
                 if (a.isdone !== b.isdone) {
                   return a.isdone ? 1 : -1;
                 }
-
                 if (!a.duedate) return 1;
                 if (!b.duedate) return -1;
-
                 return new Date(a.duedate) - new Date(b.duedate);
               })
               .map((task) => (
                 <MylistCard
-                  onClick={() => window.open(task.link)}
                   key={task.id}
                   task={task}
                   trueState="task"
                   onToggle={toggleTask}
+                  onClick={() => window.open(task.link)}
                 />
               ))
           : [...projects]
               .filter(filterByDate)
-              .sort(
-                (a, b) =>
-                  (a.status === "completed") - (b.status === "completed"),
-              )
               .map((project) => (
                 <MylistCard
-                  onClick={() => window.open(project.link)}
-                  key={`project-${project.id}`}
+                  key={project.id}
                   task={project}
                   trueState="project"
                   onToggle={changeProject}
+                  onClick={() => window.open(project.link)}
                 />
               ))}
       </div>

@@ -12,6 +12,7 @@ import rakuten_logo from "./rakuten_logo.png";
 import coinbase_logo from "./coinbase_logo.png";
 import task_logo from "./task_logo.png";
 import task_done_logo from "./task_done_logo.png";
+// import searchfolder from "./searchfolder.png";
 import project_logo from "./project_logo.png";
 import project_done_logo from "./project-done-logo.png";
 import ads_icon from "./ads_icon.svg";
@@ -56,6 +57,7 @@ export const company_logos = [
 const assets = {
   logo,
   task_logo,
+  
   linkicon,
   donelogo,
   deletelogo,

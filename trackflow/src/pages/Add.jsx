@@ -3,36 +3,36 @@ import assets from "../assets/assets";
 import { createTask } from "../models/task.model";
 import { createProject } from "../models/project.model";
 import { useDashboard } from "../contexts/Dashboard.context";
-const Add = ({ onClose ,setAddState,addState }) => {
+const Add = ({ onClose, setAddState, addState }) => {
   const dotRef = useRef(null);
-    const outlineRef = useRef(null);
-  
-    const mouse = useRef({ x: 0, y: 0 });
-    const position = useRef({ x: 0, y: 0 });
-  
-    useEffect(() => {
-      const handleMouseMove = (e) => {
-        mouse.current.x = e.clientX;
-        mouse.current.y = e.clientY;
-      };
-      document.addEventListener("mousemove", handleMouseMove);
-      const animate = () => {
-        position.current.x += (mouse.current.x - position.current.x) * 0.05;
-        position.current.y += (mouse.current.y - position.current.y) * 0.05;
-        if (dotRef.current && outlineRef.current) {
-          dotRef.current.style.transform = `translate3d(${mouse.current.x - 6}px,${mouse.current.y - 6}px, 0)`;
-          outlineRef.current.style.transform = `translate3d(${position.current.x - 20}px,${position.current.y - 20}px, 0)`;
-        }
-        requestAnimationFrame(animate);
-      };
-      animate();
-      return () => {
-        document.removeEventListener("mousemove", handleMouseMove);
-      };
-    }, []);
-  
+  const outlineRef = useRef(null);
+
+  const mouse = useRef({ x: 0, y: 0 });
+  const position = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mouse.current.x = e.clientX;
+      mouse.current.y = e.clientY;
+    };
+    document.addEventListener("mousemove", handleMouseMove);
+    const animate = () => {
+      position.current.x += (mouse.current.x - position.current.x) * 0.05;
+      position.current.y += (mouse.current.y - position.current.y) * 0.05;
+      if (dotRef.current && outlineRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouse.current.x - 6}px,${mouse.current.y - 6}px, 0)`;
+        outlineRef.current.style.transform = `translate3d(${position.current.x - 20}px,${position.current.y - 20}px, 0)`;
+      }
+      requestAnimationFrame(animate);
+    };
+    animate();
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
   const [activity, setActivity] = useState(
-    addState==="project"?"project":"task"
+    addState === "project" ? "project" : "task",
   );
   const { projects, addTask, addProject } = useDashboard();
   const [title, setTitle] = useState("");
@@ -103,14 +103,22 @@ const Add = ({ onClose ,setAddState,addState }) => {
           <div className="flex items-center justify-center gap-5">
             <img
               src={assets.task_logo}
-              className={`w-20 cursor-pointer border-white   shadow-lg p-2 border-2  rounded-lg ${activity === "task" ? "bg-blue-500 border-white" : "hover:border-black"}`}
-              onClick={() => {setActivity("task"); setAddState("task")}}
+              title="Task"
+              className={`w-20 cursor-pointer border-white   shadow-lg p-2 border-2  rounded-lg ${activity === "task" ? "bg-yellow-100 border-white" : "hover:border-black"}`}
+              onClick={() => {
+                setActivity("task");
+                setAddState("task");
+              }}
               alt=""
             />
             <img
               src={assets.project_logo}
-              onClick={() => {setActivity("project"); setAddState("project")}}
-              className={`w-20 cursor-pointer  shadow-lg p-2 border-2 border-white rounded-lg ${activity === "project" ? "bg-blue-500 border-white" : "hover:border-black"}`}
+              title="Project"
+              onClick={() => {
+                setActivity("project");
+                setAddState("project");
+              }}
+              className={`w-20 cursor-pointer  shadow-lg p-2 border-2 border-white rounded-lg ${activity === "project" ? "bg-blue-100 border-white" : "hover:border-black"}`}
               calt=""
             />
           </div>
@@ -183,7 +191,6 @@ const Add = ({ onClose ,setAddState,addState }) => {
           </button>
         </div>
       </div>
-      
     </div>
   );
 };

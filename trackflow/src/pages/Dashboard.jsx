@@ -13,6 +13,7 @@ const Dashboard = () => {
   const dotRef = useRef(null);
   const outlineRef = useRef(null);
   const [search, setSearch] = useState("");
+  const [selectedProject, setSelectedProject] = useState(null);
 
   const mouse = useRef({ x: 0, y: 0 });
   const position = useRef({ x: 0, y: 0 });
@@ -40,6 +41,45 @@ const Dashboard = () => {
   const [addOpen, setAddOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { tasks, projects } = useDashboard();
+  const filteredTasks = tasks.filter((task) => {
+    // if project selected → task must belong to it
+    if (selectedProject && task.projectId !== selectedProject.id) {
+      return false;
+    }
+
+    // if search exists → must match
+    if (search.trim()) {
+      return task.title.toLowerCase().includes(search.toLowerCase());
+    }
+
+    return true;
+  });
+
+  const filteredProjects = projects.filter((project) => {
+    // if project selected → only show that project
+    if (selectedProject) {
+      return project.id === selectedProject.id;
+    }
+
+    // otherwise apply search
+    if (search.trim()) {
+      return project.title.toLowerCase().includes(search.toLowerCase());
+    }
+
+    return true;
+  });
+  const taskCountToShow = selectedProject
+    ? filteredTasks.length
+    : search
+      ? filteredTasks.length
+      : tasks.length;
+
+  const projectCountToShow = selectedProject
+    ? 1
+    : search
+      ? filteredProjects.length
+      : projects.length;
+
   const taskdoneCount = tasks.filter((task) => task.isdone).length;
   const taskpendingCount = tasks.filter((task) => !task.isdone).length;
   const projectdoneCount = projects.filter(
@@ -65,6 +105,8 @@ const Dashboard = () => {
           setSearch={setSearch}
           activeFilter={activeFilter}
           setActiveFilter={setActiveFilter}
+          selectedProject={selectedProject}
+          setSelectedProject={setSelectedProject}
         />
         <div>
           <div className="flex mx-5 my-10 rounded-2xl p-4 sm:mx-5 md:mx-20 lg:mx-40 text-black bg-white gap-10 sm:gap-0 flex-col shadow-lg sm:flex-row justify-between items-center">
@@ -79,12 +121,12 @@ const Dashboard = () => {
             <div className="flex flex-col sm:flex-row ">
               <Dashcards
                 title="Total Tasks"
-                num={tasks.length}
+                num={taskCountToShow}
                 image={assets.task_done_logo}
               />
               <Dashcards
                 title="Total Projects"
-                num={projects.length}
+                num={projectCountToShow}
                 image={assets.project_done_logo}
               />
             </div>
@@ -93,7 +135,8 @@ const Dashboard = () => {
           <div className="flex flex-col-reverse md:flex-row justify-evenly">
             <div className="flex mx-5 my-10 rounded-2xl p-4 sm:ml-5 md:ml-20 lg:ml-40 text-black bg-white gap-10 sm:gap-0  flex-col shadow-lg sm:flex-row justify-between  items-center md:w-1/3 lg:w-1/4">
               <Dashlist
-                search={search}
+                tasks={filteredTasks}
+                projects={filteredProjects}
                 activeFilter={activeFilter}
                 setAddState={setAddState}
                 onAddClick={() => setAddOpen(true)}
@@ -127,7 +170,15 @@ const Dashboard = () => {
           <DashFooter />
         </div>
       </div>
-      <div>{addOpen && <Add addState={addState} setAddState={setAddState} onClose={() => setAddOpen(false)} />}</div>
+      <div>
+        {addOpen && (
+          <Add
+            addState={addState}
+            setAddState={setAddState}
+            onClose={() => setAddOpen(false)}
+          />
+        )}
+      </div>
       <div
         ref={outlineRef}
         className={`${menuOpen ? "border-white" : "border-black"} hidden md:block fixed top-0 left-0 h-10 w-10 rounded-full border border-black  pointer-events-none z-[9999]`}
