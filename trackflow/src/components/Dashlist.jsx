@@ -145,6 +145,16 @@ const Dashlist = ({
               ))
           : [...projects]
               .filter(filterByDate)
+              .sort((a, b) => {
+                if ((a.status === "completed") - (b.status === "completed")) {
+                  return a.status === "completed" ? 1 : -1;
+                }
+
+                if (!a.duedate) return 1;
+                if (!b.duedate) return -1;
+
+                return new Date(a.duedate) - new Date(b.duedate);
+              })
               .map((project) => (
                 <MylistCard
                   key={project.id}
