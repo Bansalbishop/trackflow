@@ -26,6 +26,8 @@ import listview from "./listview.png";
 import donelogo from "./donelogo.png";
 import deletelogo from "./deletelogo.png";
 import noteicon from "./noteicon.png";
+import upload_logo from "./upload-logo.png";
+import download_logo from "./download_logo.png";
 import gridview from "./gridview.png";
 import plus_icon from "./plus_icon.png";
 import work_fitness_app from "./work_fitness_app.png";
@@ -56,8 +58,10 @@ export const company_logos = [
 
 const assets = {
   logo,
+  upload_logo,
+  download_logo,
   task_logo,
-  
+
   linkicon,
   donelogo,
   deletelogo,

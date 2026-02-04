@@ -92,7 +92,130 @@ export const DashboardProvider = ({ children }) => {
       }),
     );
   };
+  const downloadCSV = () => {
+    const headers = [
+      "type",
+      "id",
+      "title",
+      "description",
+      "note",
+      "duedate",
+      "link",
+      "projectId",
+      "isdone",
+      "status",
+      "createdAt",
+    ];
 
+    const rows = [];
+
+    tasks.forEach((t) => {
+      rows.push([
+        "task",
+        t.id,
+        t.title ?? "",
+        t.description ?? "",
+        t.note ?? "",
+        t.duedate ?? "",
+        t.link ?? "",
+        t.projectId ?? "",
+        t.isdone,
+        "", // status not for tasks
+        t.createdAt ?? "",
+      ]);
+    });
+
+    projects.forEach((p) => {
+      rows.push([
+        "project",
+        p.id,
+        p.title ?? "",
+        p.description ?? "",
+        p.note ?? "",
+        p.duedate ?? "",
+        p.link ?? "",
+        "", // projectId not for projects
+        "", // isdone not for projects
+        p.status ?? "stopped",
+        p.createdAt ?? "",
+      ]);
+    });
+
+    if (rows.length === 0) {
+      alert("No data to export");
+      return;
+    }
+
+    const csv =
+      headers.join(",") +
+      "\n" +
+      rows
+        .map((row) =>
+          row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","),
+        )
+        .join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "dashboard-backup.csv";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
+  const restoreFromCSV = (csvText) => {
+    const lines = csvText.trim().split("\n");
+    const headers = lines[0].split(",").map((h) => h.replace(/"/g, ""));
+
+    const rows = lines.slice(1).map((line) => {
+      const values = line
+        .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+        .map((v) => v.replace(/^"|"$/g, "").replace(/""/g, '"'));
+
+      const obj = {};
+      headers.forEach((h, i) => (obj[h] = values[i]));
+      return obj;
+    });
+
+    const restoredTasks = [];
+    const restoredProjects = [];
+
+    rows.forEach((r) => {
+      if (r.type === "task") {
+        restoredTasks.push({
+          id: Number(r.id),
+          title: r.title,
+          description: r.description,
+          note: r.note,
+          duedate: r.duedate || null,
+          link: r.link,
+          projectId: r.projectId ? Number(r.projectId) : null,
+          isdone: r.isdone === "true",
+          createdAt: r.createdAt,
+          image: assets.task_logo,
+        });
+      }
+
+      if (r.type === "project") {
+        restoredProjects.push({
+          id: Number(r.id),
+          title: r.title,
+          description: r.description,
+          note: r.note,
+          duedate: r.duedate || null,
+          link: r.link,
+          status: r.status || "stopped",
+          createdAt: r.createdAt,
+          image: assets.project_logo,
+        });
+      }
+    });
+
+    setTasks(restoredTasks);
+    setProjects(restoredProjects);
+  };
   return (
     <DashboardContext.Provider
       value={{
@@ -102,6 +225,8 @@ export const DashboardProvider = ({ children }) => {
         deleteTask,
         toggleTask,
         addProject,
+        restoreFromCSV,
+        downloadCSV,
         deleteProject,
         changeProject,
         updateTaskNote,

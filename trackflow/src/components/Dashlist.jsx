@@ -10,7 +10,8 @@ const Dashlist = ({
   setAddState,
   onAddClick,
 }) => {
-  const { toggleTask, changeProject } = useDashboard();
+  const { toggleTask, changeProject, downloadCSV, restoreFromCSV } =
+    useDashboard();
   const [activeTab, setActiveTab] = useState("task");
 
   const isToday = (date) => {
@@ -62,14 +63,58 @@ const Dashlist = ({
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="flex justify-between items-center w-full">
-        <h2 className="font-extrabold text-3xl mb-5">My List</h2>
-        <img
-          src={assets.plus_icon}
-          alt="add"
-          onClick={onAddClick}
-          className="w-10 cursor-pointer bg-blue-300/45 rounded-full p-2 hover:scale-105 transition-all"
-        />
+      <div className="flex justify-between items-center w-full mb-5">
+        <h2 className="font-extrabold center text-3xl ">My List</h2>
+        <div className="flex gap-2">
+          <input
+            type="file"
+            accept=".csv"
+            className="hidden"
+            id="csvRestore"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+
+              const reader = new FileReader();
+
+              reader.onload = (ev) => {
+                const ok = window.confirm(
+                  "This will replace your current tasks & projects. Continue?",
+                );
+
+                if (!ok) {
+                  e.target.value = "";
+                  return;
+                }
+
+                restoreFromCSV(ev.target.result);
+                e.target.value = "";
+              };
+
+              reader.readAsText(file);
+            }}
+          />
+          <label
+            htmlFor="csvRestore"
+            title="Upload data from CSV"
+            className="w-10 cursor-pointer bg-blue-300/45 rounded-full p-2 hover:scale-105 transition-all flex items-center justify-center"
+          >
+            <img src={assets.upload_logo} alt="Restore" />
+          </label>
+          <img
+          title="Download data"
+            src={assets.download_logo}
+            alt="Download all data"
+            onClick={downloadCSV}
+            className="w-11 cursor-pointer bg-blue-300/45 rounded-full p-2 hover:scale-105 transition-all"
+          />
+          <img
+            src={assets.plus_icon}
+            alt="add"
+            onClick={onAddClick}
+            className="w-11 cursor-pointer bg-blue-300/45 rounded-full p-2 hover:scale-105 transition-all"
+          />
+        </div>
       </div>
 
       {/* Tabs */}
