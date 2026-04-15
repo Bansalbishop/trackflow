@@ -133,7 +133,6 @@ export const DashboardProvider = ({ children }) => {
   ======================= */
 
   const restoreFromCSV = (csvText) => {
-    if (!window.confirm("This will overwrite current data. Continue?")) return;
 
     Papa.parse(csvText, {
       header: true,
@@ -157,7 +156,7 @@ export const DashboardProvider = ({ children }) => {
               duedate: clean(r.duedate),
               link: clean(r.link),
               projectId: r.projectId ? Number(r.projectId) : null,
-              isdone: r.isdone === "true",
+              isdone: String(r.isdone).toLowerCase() === "true",
               createdAt: clean(r.createdAt),
               image: assets.task_logo,
             });

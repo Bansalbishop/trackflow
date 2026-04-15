@@ -1,9 +1,16 @@
 import assets from "../assets/assets";
 
-export const createTask = ({ title, description,duedate, projectId,note,link }) => {
+export const createTask = ({
+  title,
+  description,
+  duedate,
+  projectId,
+  note,
+  link,
+}) => {
   return {
-    id: Date.now(),
-    image:assets.task_logo,
+    id: crypto.randomUUID(),
+    image: assets.task_logo,
     title,
     description,
     isdone: false,
